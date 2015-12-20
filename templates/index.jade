@@ -1,40 +1,16 @@
 extends ../node_modules/jade-bootstrap/_bootstrap
 append styles
 	- // Custom styles for this template
-	link(href='../sticky-footer-navbar.css', rel='stylesheet')
-	link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.js')
 	link(href='../custom.css', rel='stylesheet')
+	link(href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.css', rel='stylesheet')
+	link(href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.print.css', media='print', rel='stylesheet')
+	link(href='../sticky-footer-navbar.css', rel='stylesheet')
 append scripts
 	script(src='//code.jquery.com/jquery-1.11.3.min.js')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
-	script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.js')
+	script(src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.js')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/gcal.js')
-	script.
-		$(document).ready(function () {
-			$('#calendar').fullCalendar({
-				googleCalendarApiKey: 'AIzaSyC54MUT8g0TaoIokL6ZcLsAeviQeXG-qBY',
-				events: {
-					googleCalendarId: 'ten000mph@gmail.com',
-					className: 'gcal-event'
-				},
-				header: {
-			        left: 'prev,next today',
-			        center: 'title',
-			        right: 'month,agendaWeek,agendaDay'
-			    },
-			    buttonIcons: {
-		            prev: 'left-single-arrow',
-		            next: 'right-single-arrow',
-		            //- prevYear: 'left-double-arrow',
-		            //- nextYear: 'right-double-arrow'
-		        },
-			    eventAfterRender: function (event, element, view) {
-			    	$(element).css('width', '50px');
-			    },
-			    defaultView: 'month',
-			});
-		});
-
+	script(src='../js/mycalendar.js')
 block body
 	- // Fixed navbar
 	nav.navbar.navbar-default.navbar-fixed-top
@@ -49,7 +25,8 @@ block body
 	.container
 		.page-header
 			h1 FullCalendar
-			p.lead Hello
+		.row
+			button(id="auth-button", style="visibility: hidden") Authorize
 		.row
 			div(id='calendar')
 
