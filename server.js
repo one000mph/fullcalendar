@@ -61,6 +61,7 @@ app.get('/auth', function (req, res) {
 			throw err;
 		} else {
 			oauth2client.setCredentials(tokens);
+
 			// get all user's calendars
 			gcal.calendarList.list({auth: oauth2client}, function (err, calList) {
 				if (err) { throw err; }
@@ -77,14 +78,16 @@ app.post('/calendars/update', function (req, res) {
 	var calendarIds = req.body.calendars;
 	var id = calendarIds;
 
+	// retrieve calendar color and summry (name)
 	gcal.calendarList.get({auth: oauth2client, calendarId: id, fields:'backgroundColor,summary'}, function (err, calData) {
 		if (err) { throw err; }
 		params.backgroundColor = calData.backgroundColor;
 		params.summary = calData.summary;
-		// For privacy, we restrict to this month's calendar data
-		// this could be changed later
+		// For privacy, we restrict to this month's calendar data this could be changed later
 		var now = new Date();
 		var startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+
+		// retrieve list of events
 		gcal.events.list({calendarId: id, timeMin: startOfMonth}, function (err, eventData) {
 			if (err) { throw err; }
 			params.events = eventData;
