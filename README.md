@@ -10,6 +10,8 @@ node server.js
 Note: Must run `npm i` to install dependencies before continuing development on a
 cloned repo or hosting on a server.
 
+Access via `localhost:8000`
+
 ### Limitations
 * Currently only allows one calendar to be displayed at a time.
 
