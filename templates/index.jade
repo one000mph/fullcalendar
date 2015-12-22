@@ -11,11 +11,14 @@ append scripts
 	script(src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.js')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/gcal.js')
 	script.
+		var events;
+		var eventsList = [];
+		var backgroundColor = '#{backgroundColor}' || '#337ab7';
 
-		if (!{JSON.stringify(events)}.events) {
-			var events = !{JSON.stringify(events)}.events.items;
-			var eventsList = [];
-			if (events && events.length > 0) {
+		if (!{JSON.stringify(events)}) {
+			console.log(!{JSON.stringify(events)});
+			events = !{JSON.stringify(events)}.items;
+			if (events.length > 0) {
 				$.each(events, function (i, entry) {
 					if (entry.status !== 'cancelled') {
 						eventsList.push({
@@ -42,6 +45,7 @@ append scripts
 			        right: 'month,agendaWeek,agendaDay'
 			    },
 			    events: eventsList,
+			    eventColor: backgroundColor,
 			    editable: true,
 			    eventLimit: true,
 			    buttonIcons: {
@@ -77,7 +81,7 @@ block body
 			h1 FullCalendar
 			p.lead-text
 				if loggedin === false
-					| Please Log In to access calendar data
+					| Please <a href='#{authUrl}'>Log In</a> to access calendar data
 				if loggedin === true
 					| Select a calendar to display
 		.row.cal-toolbar

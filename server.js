@@ -46,7 +46,6 @@ app.get('/', function (req, res) {
 	if (oauth2client.credentials.access_token) {
 		params.loggedin = true;
 	}
-	console.log(params);
 	res.render('index', params);
 });
 
@@ -69,23 +68,19 @@ app.get('/auth', function (req, res) {
 
 app.post('/calendars/update', function (req, res) {
 	var calendarIds = req.body.calendars;
-	console.log(calendarIds);
 	var id = calendarIds;
-	console.log("getting id", id);
 
 	var eventResponse = {}
 	gcal.calendarList.get({auth: oauth2client, calendarId: id, fields:'backgroundColor,summary'}, function (err, calData) {
 		if (err) { throw err; }
 
-		eventResponse.backgroundColor = calData.backgroundColor;
-		eventResponse.summary = calData.summary;
+		params.backgroundColor = calData.backgroundColor;
+		params.summary = calData.summary;
 		var now = new Date();
 		var startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 		gcal.events.list({calendarId: id, timeMin: startOfMonth}, function (err, eventData) {
 			if (err) { throw err; }
-			eventResponse.events = eventData;
-			console.log(eventResponse.events.items);
-			params.events = eventResponse;
+			params.events = eventData;
 			res.redirect('/');
 		});
 	});
