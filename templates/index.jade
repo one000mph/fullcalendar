@@ -16,9 +16,8 @@ append scripts
 		var backgroundColor = '#{backgroundColor}' || '#337ab7';
 
 		if (!{JSON.stringify(events)}) {
-			console.log(!{JSON.stringify(events)});
 			events = !{JSON.stringify(events)}.items;
-			if (events.length > 0) {
+			if (events && events.length > 0) {
 				$.each(events, function (i, entry) {
 					if (entry.status !== 'cancelled') {
 						eventsList.push({
@@ -33,7 +32,7 @@ append scripts
 					}
 				});
 			} else {
-				alert('No events found for the selected calendar!')
+				alert('No events found')
 			}
 		}
 
@@ -54,10 +53,7 @@ append scripts
 			    },
 			});
 		});
-	//- script(src='../js/mycalendar.js')
-	script(src='https://apis.google.com/js/client.js?onload=handleClientLoad')
 block body
-	- // Fixed navbar
 	nav.navbar.navbar-default.navbar-fixed-top
 		.container
 			.navbar-header

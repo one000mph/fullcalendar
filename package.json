@@ -14,13 +14,11 @@
   "author": "Heather Seaman",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.1.1",
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "getconfig": "^2.2.0",
     "googleapis": "^2.1.7",
     "jade": "^1.11.0",
     "jade-bootstrap": "^1.0.1",
-    "lodash": "^3.10.1"
   }
 }
