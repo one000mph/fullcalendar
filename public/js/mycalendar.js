@@ -24,7 +24,7 @@ function handleAuthResult(authResult) {
 	}
 }
 
-function handleAuthClick(event) {
+function handleAuthClick() {
 	gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
 	return false;
 }
@@ -51,7 +51,6 @@ function makeApiCall() {
 					var url = entry.htmlLink;
 
 					//timezone support
-
 					eventsList.push({
 						id: entry.id,
 						title: entry.summary,
