@@ -12,4 +12,7 @@ node server.js
 * Currently only allows one calendar to be displayed at a time.
 
 ### Future Work
-* Allow users to add multiple calendars at once
+* Allow users to add multiple calendars and toggle on/off
+* Create events and persist to Google Calendar
+* Real-time event push from Google Calendar to this page
+
