@@ -38,14 +38,15 @@ var params = {
 	title: 'FullCalendar App',
 	authUrl: authUrl,
 	loggedin: false,
-	calendars: []
+	calendars: [],
+	events: {}
 }
 
 app.get('/', function (req, res) {
 	if (oauth2client.credentials.access_token) {
-		// console.log("Credentials exist!", oauth2client.credentials.access_token);
 		params.loggedin = true;
 	}
+	console.log(params);
 	res.render('index', params);
 });
 
@@ -69,7 +70,7 @@ app.get('/auth', function (req, res) {
 app.post('/calendars/update', function (req, res) {
 	var calendarIds = req.body.calendars;
 	console.log(calendarIds);
-	var id = calendarIds[0];
+	var id = calendarIds;
 	console.log("getting id", id);
 
 	var eventResponse = {}
@@ -83,8 +84,8 @@ app.post('/calendars/update', function (req, res) {
 		gcal.events.list({calendarId: id, timeMin: startOfMonth}, function (err, eventData) {
 			if (err) { throw err; }
 			eventResponse.events = eventData;
-			console.log(eventResponse);
-			params.events = eventResponse
+			console.log(eventResponse.events.items);
+			params.events = eventResponse;
 			res.redirect('/');
 		});
 	});

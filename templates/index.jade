@@ -10,7 +10,47 @@ append scripts
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
 	script(src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/fullcalendar.min.js')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.5.0/gcal.js')
-	script(src='../js/mycalendar.js')
+	script.
+
+		if (!{JSON.stringify(events)}.events) {
+			var events = !{JSON.stringify(events)}.events.items;
+			var eventsList = [];
+			if (events && events.length > 0) {
+				$.each(events, function (i, entry) {
+					if (entry.status !== 'cancelled') {
+						eventsList.push({
+							id: entry.id,
+							title: entry.summary,
+							start: entry.start.dateTime || entry.start.date,
+							end: entry.end.dateTime || entry.end.date,
+							url: entry.htmlLink,
+							location: entry.location,
+							description: entry.description
+						});
+					}
+				});
+			} else {
+				alert('No events found for the selected calendar!')
+			}
+		}
+
+		$(document).ready(function () {
+			$('#calendar').fullCalendar({
+				header: {
+			        left: 'prev,next today',
+			        center: 'title',
+			        right: 'month,agendaWeek,agendaDay'
+			    },
+			    events: eventsList,
+			    editable: true,
+			    eventLimit: true,
+			    buttonIcons: {
+			        prev: 'left-single-arrow',
+			        next: 'right-single-arrow'
+			    },
+			});
+		});
+	//- script(src='../js/mycalendar.js')
 	script(src='https://apis.google.com/js/client.js?onload=handleClientLoad')
 block body
 	- // Fixed navbar
@@ -35,8 +75,12 @@ block body
 	.container
 		.page-header
 			h1 FullCalendar
+			p.lead-text
+				if loggedin === false
+					| Please Log In to access calendar data
+				if loggedin === true
+					| Select a calendar to display
 		.row.cal-toolbar
-			button(id='auth-button', style='visibility: hidden') Authorize
 			div.cal-list
 				if calendars.length > 0
 					h3 Calendar List
@@ -44,9 +88,9 @@ block body
 						ul.list-group.checked-list-box
 							each cal in calendars
 								li.checkbox
-									input(type='checkbox', name='calendars', value=cal.id, key=cal.summary)
+									input(type='radio', name='calendars', value=cal.id, key=cal.summary)
 									label(for=cal.summary) #{cal.summary}
-						button.btn.btn-primary(name='submit', type='submit') Add Calendars
+						button.btn.btn-primary(name='submit', type='submit') Display Calendar
 			
 		.row
 			div(id='calendar')
